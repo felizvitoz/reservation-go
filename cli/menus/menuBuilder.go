@@ -10,7 +10,7 @@ func GetMenu(clientId int32) []Menu {
 }
 
 func DefaultMenuStrategy() []Menu {
-	reservationMenu := CliMenu{
+	reservationMenu := &CliMenu{
 		MenuId: "1",
 		Level:  1,
 		Order:  1,
