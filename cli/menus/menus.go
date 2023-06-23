@@ -18,20 +18,20 @@ type CliMenu struct {
 	nextMenus []Menu
 }
 
-func (mn CliMenu) Show() {
+func (mn *CliMenu) Show() {
 	fmt.Println(mn.MenuId, ".", mn.Text)
 }
 
-func (mn CliMenu) Enter() {
+func (mn *CliMenu) Enter() {
 	for _, content := range mn.contents {
 		content.Execute()
 	}
 }
 
-func (mn CliMenu) Move() []Menu {
+func (mn *CliMenu) Move() []Menu {
 	return mn.nextMenus
 }
 
-func (mn CliMenu) GetId() string {
+func (mn *CliMenu) GetId() string {
 	return mn.MenuId
 }

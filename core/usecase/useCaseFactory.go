@@ -7,3 +7,7 @@ type InputBoundary interface {
 func GetCreateReservationUseCase(requestBuilder CreateReservationUseCaseRequestBuilder) InputBoundary {
 	return &CreateReservationUseCase{requestBuilder}
 }
+
+func GetSetRoomDataUseCase(requestBuilder SetRoomDataUseCaseRequestBuilder) InputBoundary {
+	return &SetRoomDataUseCase{requestBuilder}
+}
