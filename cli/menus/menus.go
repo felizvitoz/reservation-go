@@ -10,12 +10,12 @@ type Menu interface {
 }
 
 type CliMenu struct {
-	MenuId    string
-	Level     int32
-	Order     int32
-	Text      string
-	contents  []MenuContent
-	nextMenus []Menu
+	MenuId            string
+	Level             int32
+	Text              string
+	sharedInputValues map[string]string
+	contents          []MenuContent
+	nextMenus         []Menu
 }
 
 func (mn *CliMenu) Show() {
@@ -24,7 +24,7 @@ func (mn *CliMenu) Show() {
 
 func (mn *CliMenu) Enter() {
 	for _, content := range mn.contents {
-		content.Execute()
+		content.Execute(mn.sharedInputValues)
 	}
 }
 
@@ -34,4 +34,8 @@ func (mn *CliMenu) Move() []Menu {
 
 func (mn *CliMenu) GetId() string {
 	return mn.MenuId
+}
+
+func (mn *CliMenu) setContent(key string, value string) {
+	mn.sharedInputValues[key] = value
 }

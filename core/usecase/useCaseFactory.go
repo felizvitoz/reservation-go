@@ -4,10 +4,10 @@ type InputBoundary interface {
 	Execute()
 }
 
-func GetCreateReservationUseCase(requestBuilder CreateReservationUseCaseRequestBuilder) InputBoundary {
-	return &CreateReservationUseCase{requestBuilder}
+func GetCreateReservationUseCase(request CreateReservationUseCaseRequest) InputBoundary {
+	return &CreateReservationUseCase{request}
 }
 
-func GetSetRoomDataUseCase(requestBuilder SetRoomDataUseCaseRequestBuilder) InputBoundary {
-	return &SetRoomDataUseCase{requestBuilder}
+func GetSetRoomDataUseCase(request SetRoomDataRequest) InputBoundary {
+	return &SetRoomDataUseCase{request}
 }
