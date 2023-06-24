@@ -12,27 +12,25 @@ func GetMenu(themeType int32) []Menu {
 func DefaultMenuStrategy() []Menu {
 	var mainMenus []Menu
 	reservationMenu := &CliMenu{
-		MenuId: "1",
-		Level:  1,
-		Order:  1,
-		Text:   "Create Reservation",
+		MenuId:            "1",
+		Level:             1,
+		Text:              "Create Reservation",
+		sharedInputValues: make(map[string]string),
 	}
-
-	createReservationInputContent := &InputContent{"", "Please Input Seat Number : ", "seatNumber", Content{}}
-	createReservationAction := BuildReservationAction([]*InputContent{createReservationInputContent})
-	createReservationActionContent := &ActionContent{createReservationAction, Content{}}
-	reservationMenu.contents = []MenuContent{createReservationInputContent, createReservationActionContent}
+	createReservationLocationInputContent := &InputContent{"Please Input The Location : ", InputLocationKey, Content{reservationMenu.setContent}}
+	createReservationRoomInputContent := &InputContent{"Please Input The Room Number : ", InputRoomNumberKey, Content{reservationMenu.setContent}}
+	createReservationActionContent := &ActionContent{BuildReservationAction, Content{reservationMenu.setContent}}
+	reservationMenu.contents = []MenuContent{createReservationLocationInputContent, createReservationRoomInputContent, createReservationActionContent}
 
 	setRoomDataMenu := &CliMenu{
-		MenuId: "99",
-		Level:  1,
-		Order:  99,
-		Text:   "Set Room Data",
+		MenuId:            "99",
+		Level:             1,
+		Text:              "Set Room Data",
+		sharedInputValues: make(map[string]string),
 	}
-	setRoomLocationDataMenuContent := &InputContent{"", "Please Input The Location : ", InputLocationKey, Content{}}
-	setRoomNumberDataMenuContent := &InputContent{"", "Please Input The Room Number : ", InputRoomNumberKey, Content{}}
-	SetRoomDataAction := BuildSetRoomDataAction([]*InputContent{setRoomLocationDataMenuContent, setRoomNumberDataMenuContent})
-	setRoomActionContent := &ActionContent{SetRoomDataAction, Content{}}
+	setRoomLocationDataMenuContent := &InputContent{"Please Input The Location : ", InputLocationKey, Content{setRoomDataMenu.setContent}}
+	setRoomNumberDataMenuContent := &InputContent{"Please Input The Room Number : ", InputRoomNumberKey, Content{setRoomDataMenu.setContent}}
+	setRoomActionContent := &ActionContent{BuildSetRoomDataAction, Content{setRoomDataMenu.setContent}}
 	setRoomDataMenu.contents = []MenuContent{setRoomLocationDataMenuContent, setRoomNumberDataMenuContent, setRoomActionContent}
 
 	mainMenus = []Menu{reservationMenu, setRoomDataMenu}

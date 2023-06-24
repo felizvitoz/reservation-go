@@ -9,12 +9,11 @@ import (
 )
 
 type MenuContent interface {
-	Execute()
-	GetOrder() int32
+	Execute(map[string]string)
 }
 
 type Content struct {
-	Order int32
+	setValueCallBack func(string, string)
 }
 
 type TextContent struct {
@@ -23,32 +22,27 @@ type TextContent struct {
 }
 
 type InputContent struct {
-	Value string
-	Text  string
-	Key   string
+	Text string
+	Key  string
 	Content
 }
 
 type ActionContent struct {
-	InputBoundary usecase.InputBoundary
+	buildInputBoundary func(map[string]string) usecase.InputBoundary
 	Content
 }
 
-func (tc *TextContent) Execute() {
+func (tc *TextContent) Execute(sharedInputValues map[string]string) {
 	fmt.Println(tc.text)
 }
 
-func (ic *InputContent) Execute() {
+func (ic *InputContent) Execute(sharedInputValues map[string]string) {
 	fmt.Print(ic.Text)
 	reader := bufio.NewReader(os.Stdin)
 	input, _ := reader.ReadString('\n')
-	ic.Value = strings.Trim(input, "\n")
+	ic.Content.setValueCallBack(ic.Key, strings.Trim(input, "\n"))
 }
 
-func (ac *ActionContent) Execute() {
-	ac.InputBoundary.Execute()
-}
-
-func (ct *Content) GetOrder() int32 {
-	return ct.Order
+func (ac *ActionContent) Execute(sharedInputValues map[string]string) {
+	ac.buildInputBoundary(sharedInputValues).Execute()
 }
