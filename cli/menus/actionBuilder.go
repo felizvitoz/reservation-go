@@ -6,7 +6,7 @@ import (
 
 func BuildReservationAction(inputMap map[string]string) usecase.InputBoundary {
 	request := usecase.CreateReservationUseCaseRequest{
-		inputMap[InputLocationKey], inputMap[InputRoomNumberKey]}
+		inputMap[InputLocationKey], inputMap[InputRoomNumberKey], inputMap[InputReservationDateKey]}
 	return usecase.GetCreateReservationUseCase(request)
 }
 

@@ -1,6 +1,8 @@
 package menus
 
 const (
-	InputLocationKey   = "location"
-	InputRoomNumberKey = "roomNumber"
+	InputLocationKey                = "location"
+	InputRoomNumberKey              = "roomNumber"
+	InputReservationDateKey         = "reservationDate"
+	InputReservationConfirmationKey = "confirmed"
 )

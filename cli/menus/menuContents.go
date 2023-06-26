@@ -28,7 +28,8 @@ type InputContent struct {
 }
 
 type ActionContent struct {
-	buildInputBoundary func(map[string]string) usecase.InputBoundary
+	confirmationValidation func(map[string]string) bool
+	buildInputBoundary     func(map[string]string) usecase.InputBoundary
 	Content
 }
 
@@ -37,12 +38,25 @@ func (tc *TextContent) Execute(sharedInputValues map[string]string) {
 }
 
 func (ic *InputContent) Execute(sharedInputValues map[string]string) {
-	fmt.Print(ic.Text)
+	fmt.Print(replaceTextWithActualValue(ic.Text, sharedInputValues))
 	reader := bufio.NewReader(os.Stdin)
 	input, _ := reader.ReadString('\n')
 	ic.Content.setValueCallBack(ic.Key, strings.Trim(input, "\n"))
 }
 
 func (ac *ActionContent) Execute(sharedInputValues map[string]string) {
-	ac.buildInputBoundary(sharedInputValues).Execute()
+	confirmed := true
+	if ac.confirmationValidation != nil {
+		confirmed = ac.confirmationValidation(sharedInputValues)
+	}
+	if confirmed {
+		ac.buildInputBoundary(sharedInputValues).Execute()
+	}
+}
+
+func replaceTextWithActualValue(input string, sharedInputValues map[string]string) string {
+	for key, value := range sharedInputValues {
+		input = strings.Replace(input, "{"+key+"}", value, 1)
+	}
+	return input
 }
