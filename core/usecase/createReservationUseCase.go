@@ -3,8 +3,9 @@ package usecase
 import "fmt"
 
 type CreateReservationUseCaseRequest struct {
-	Location string
-	RoomNo   string
+	Location        string
+	RoomNo          string
+	ReservationDate string
 }
 
 type CreateReservationUseCase struct {

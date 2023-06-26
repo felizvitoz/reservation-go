@@ -36,6 +36,6 @@ func (mn *CliMenu) GetId() string {
 	return mn.MenuId
 }
 
-func (mn *CliMenu) setContent(key string, value string) {
+func (mn *CliMenu) setContentValue(key string, value string) {
 	mn.sharedInputValues[key] = value
 }

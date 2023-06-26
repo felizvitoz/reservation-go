@@ -1,6 +1,8 @@
 package usecase
 
-import "fmt"
+import (
+	"reservation/persistence/repositories"
+)
 
 type SetRoomDataRequest struct {
 	Location   string
@@ -8,11 +10,13 @@ type SetRoomDataRequest struct {
 }
 
 type SetRoomDataUseCase struct {
-	request SetRoomDataRequest
+	request        SetRoomDataRequest
+	roomRepository *repositories.RoomRepository
 }
 
 func (cru *SetRoomDataUseCase) Execute() {
 	location := cru.request.Location
 	roomNo := cru.request.RoomNumber
-	fmt.Println("Room Data : ", location, roomNo)
+	room := repositories.Room{location, roomNo}
+	cru.roomRepository.Save(room)
 }
